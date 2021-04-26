@@ -42,3 +42,13 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+Note 
+
+installing the staring dependency
+
+npm i @material-ui/core @material-ui/icons firebase
+
+for model or component in the website
+npm i react-model
