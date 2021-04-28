@@ -3,6 +3,7 @@ import '../css/Quer.css'
 import Feed from './Feed'
 import Navbar from './Navbar'
 import Sidebar from './Sidebar'
+import Widget from './Widget'
 
 
 function quer() {
@@ -12,6 +13,7 @@ function quer() {
             <div className = "quer_content">
                 <Sidebar/>
                 <Feed/>
+                <Widget/>
             </div>
         </div>
     )
