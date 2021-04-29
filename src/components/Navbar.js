@@ -12,17 +12,36 @@ import "../css/Navbar.css";
 import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice";
 import db, { auth } from "../firebase";
-import Modal from "react-modal"
+import Modal from "react-modal";
 import { ExpandMore, Link } from "@material-ui/icons";
+import firebase from 'firebase';
 
 function Navbar() {
   const user = useSelector(selectUser);
 
   //const [IsmodelOpen, setIsModelOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const [input, setInput] = useState("");
-  const [inputUrl, setInputUrl] = useState("");
+  const [input, setInput] = useState("");  //empty string
+  const [inputUrl, setInputUrl] = useState("");  //empty string
   const questionName = input;
+
+  const handleQuestion = (e) => {
+    e.preventDefault(); //prevent any kind of browser refresh event
+    setOpenModal(false);
+
+    if (questionName) {
+      db.collection("questions").add({
+        user: user,
+        question: input,
+        imageUrl: inputUrl,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+    }
+
+    setInput("");
+    setInputUrl("");
+  };
+
 
   return (
     <div className="navbar">
@@ -64,7 +83,7 @@ function Navbar() {
           onRequestClose = {()=> setOpenModal(false)}
           >
             <div className="modal_title">
-             {/*_____________________________________ */}
+             {/*_________________Model Start____________________ */}
 
  <h5>Add Question</h5>
             <h5>Share Link</h5>
@@ -86,17 +105,17 @@ function Navbar() {
             </div>
           </div>
           <div className="modal_Field">
-            {/* <Input
+            <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               type="text"
               placeholder="Start your question with 'What', 'How', 'Why', etc. "
-            /> */}
+            /> 
             <div className="modal_fieldLink">
               <Link />
               <input
-                // value={inputUrl}
-                // onChange={(e) => setInputUrl(e.target.value)}
+                value={inputUrl}
+                onChange={(e) => setInputUrl(e.target.value)}
                 type="text"
                 placeholder="Optional: inclue a link that gives context"
               ></input>
@@ -104,17 +123,17 @@ function Navbar() {
           </div>
           <div className="modal_buttons">
             <button className="cancle" 
-            // onClick={() => setIsModalOpen(false)}
+             onClick={() => setOpenModal(false)}
             >
               Cancel
             </button>
             <button type="sumbit" 
-            // onClick={handleQuestion} 
+            onClick={handleQuestion} 
             className="add">
               Add Question
             </button>
 
-              {/*_____________________________________ */}
+              {/*__________________Model End___________________ */}
 
             </div>
           </Modal>

@@ -128,6 +128,7 @@
   background-color: rgb(230, 230, 230);
   border-radius: 33px;
   cursor: pointer;
+  height: 30px;
 }
 
 .modal_Field {
