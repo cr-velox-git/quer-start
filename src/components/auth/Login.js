@@ -1,49 +1,49 @@
 import React, { useState } from "react";
 import "./Login.css";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import { auth, provider } from "../../firebase";
+import { auth, GoogleAuthProvider } from "../../firebase";
+
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-//   const signIn = () => {
-//     auth.signInWithPopup(provider).catch((e) => {
-//       alert(e.message);
-//     });
-//   };
+  const signInWithGoogle = () => {
+    auth.signInWithPopup(GoogleAuthProvider).catch((e) => {
+      alert(e.message);
+    });
+  };
 
-//   const handleSignIn = (e) => {
-//     e.preventDefault();
+  const handleSignIn = (e) => {
+    e.preventDefault(); // prevent additional task of webpage
 
-//     auth
-//       .signInWithEmailAndPassword(email, password)
-//       .then((auth) => {
-//         console.log(auth);
-//       })
-//       .catch((e) => alert(e.message));
-//   };
+    auth.signInWithEmailAndPassword(email, password)
+      .then((auth) => {
+        console.log(auth);
+      })
+      .catch((e) => alert(e.message));
+  };
 
-//   const registerSignIn = (e) => {
-//     e.preventDefault();
+  const registerSignIn = (e) => {
+    e.preventDefault();
 
-//     auth
-//       .createUserWithEmailAndPassword(email, password)
-//       .then((auth) => {
-//         if (auth) {
-//           console.log(auth);
-//         }
-//       })
-//       .catch((e) => alert(e.message));
-//   };
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((auth) => {
+        if (auth) {
+          console.log(auth);
+        }
+      })
+      .catch((e) => alert(e.message));
+  };
 
 
   return (
     <div className="login">
       <div className="login__container">
         <div className="login__logo">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Quora_logo_2015.svg/250px-Quora_logo_2015.svg.png"
+          <img //quora image
+            src="https://firebasestorage.googleapis.com/v0/b/quer-7898.appspot.com/o/WebsiteMust%2FQUE.png?alt=media&token=792f0763-9987-4505-8c0f-50c3ff9c22b7"
             alt=""
           />
         </div>
@@ -52,7 +52,7 @@ function Login() {
           <p style={{ color: "royalblue", fontSize: "25px" }}>
             HandCrafted with ❤️ by{" "}
           </p>
-          <h3>Code With Akky</h3>
+          <h3>Quer Team</h3>
         </div>
         <div className="login__auth">
           <div className="login__authOptions">
@@ -62,18 +62,16 @@ function Login() {
                 src="https://media-public.canva.com/MADnBiAubGA/3/screen.svg"
                 alt=""
               />
-              <p  
-              //onClick={signIn}
-              >Continue With Google</p>
+              <p onClick={signInWithGoogle}>Continue With Google</p>
             </div>
-            <div className="login__authOption">
+            {/* <div className="login__authOption">
               <img
                 className="login__googleAuth"
                 src="https://1000logos.net/wp-content/uploads/2016/11/Facebook-logo-500x350.png"
                 alt=""
               />
               <span>Continue With Facebook</span>
-            </div>
+            </div> */}
             <div className="login__authDesc">
               <p>
                 <span style={{ color: "blue", cursor: "pointer" }}>
@@ -99,16 +97,16 @@ function Login() {
             <div className="login__inputFields">
               <div className="login__inputField">
                 <input
-                  //value={email}
-                 // onChange={(e) => setEmail(e.target.value)}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   type="text"
                   placeholder="Email"
                 />
               </div>
               <div className="login__inputField">
                 <input
-                 // value={password}
-                  //onChange={(e) => setPassword(e.target.value)}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   type="password"
                   placeholder="Password"
                 />
@@ -116,13 +114,9 @@ function Login() {
             </div>
             <div className="login__forgButt">
               <small>Forgot Password?</small>
-              <button 
-              //onClick={handleSignIn}
-              >Login</button>
+              <button onClick={handleSignIn}>Login</button>
             </div>
-            <button 
-            //onClick={registerSignIn}
-            >Register</button>
+            <button onClick={registerSignIn}>Register</button>
           </div>
         </div>
         <div className="login__lang">
