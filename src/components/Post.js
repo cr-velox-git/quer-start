@@ -1,42 +1,181 @@
-import React from "react";
-import "../css/Post.css";
 import { Avatar } from "@material-ui/core";
-import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
-import RepeatIcon from "@material-ui/icons/Repeat";
-import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
-import ShareIcon from "@material-ui/icons/Share";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import React, { useEffect, useState } from "react";
+import "../css/Post.css";
+import ArrowUpwardOutlinedIcon from "@material-ui/icons/ArrowUpwardOutlined";
+import ArrowDownwardOutlinedIcon from "@material-ui/icons/ArrowDownwardOutlined";
+import RepeatOutlinedIcon from "@material-ui/icons/RepeatOutlined";
+import ChatBubbleOutlineOutlinedIcon from "@material-ui/icons/ChatBubbleOutlineOutlined";
+import { MoreHorizOutlined, ShareOutlined } from "@material-ui/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "../features/userSlice";
+import Modal from "react-modal";
+import db from "../firebase";
+import { selectQuestionId, setQuestionInfo } from "../features/questionSlice";
+import firebase from "firebase";
 
-function Post() {
+function Post({ Id, question, imageUrl, timestamp, querUser }) {
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
+  const [IsmodalOpen, setIsModalOpen] = useState(false);
+  const questionId = useSelector(selectQuestionId);
+  const [answer, setAnswer] = useState("");
+  const [getAnswers, setGetAnswers] = useState([]);
+
+  useEffect(() => {
+    if (questionId) {
+      db.collection("questions")
+        .doc(questionId)
+        .collection("answer")
+        .orderBy("timestamp", "desc")
+        .onSnapshot((snapshot) =>
+          setGetAnswers(
+            snapshot.docs.map((doc) => ({ id: doc.id, answers: doc.data() }))
+          )
+        );
+    }
+  }, [questionId]);
+
+  const handleAnswer = (e) => {
+    e.preventDefault();
+
+    if (questionId) {
+      db.collection("questions").doc(questionId).collection("answer").add({
+        user: querUser,
+        answer: answer,
+        questionId: questionId,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+    }
+    console.log(questionId);
+    setAnswer("");
+    setIsModalOpen(false);
+  };
   return (
-    <div className="post">
-      <div clasName="post_info">
-        <Avatar />
-        <h5>UserName</h5>
-        <small>TimeStamp</small>
+    <div
+      className="post"
+      onClick={() =>
+        dispatch(
+          setQuestionInfo({
+            questionId: Id,
+            questionName: question,
+          })
+        )
+      }
+    >
+      <div className="post_info">
+        <Avatar
+          src={
+            querUser.photo
+              ? querUser.photo
+              : "https://images-platform.99static.com//_QXV_u2KU7-ihGjWZVHQb5d-yVM=/238x1326:821x1909/fit-in/500x500/99designs-contests-attachments/119/119362/attachment_119362573"
+          }
+        />
+        <h4>{querUser.displayName ? querUser.displayName : querUser.email}</h4>
+        <small>{new Date(timestamp?.toDate()).toLocaleString()}</small>
       </div>
       <div className="post_body">
         <div className="post_question">
-          <p>Question</p>
-          <button className="post_btnAnswer">Answer</button>
+          <p>{question}</p>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="post_btnAnswer"
+          >
+            Answer
+          </button>
+          <Modal
+            isOpen={IsmodalOpen}
+            onRequestClose={() => setIsModalOpen(false)}
+            shouldCloseOnOverlayClick={false}
+            style={{
+              overlay: {
+                width: 680,
+                height: 550,
+                backgroundColor: "rgba(0,0,0,0.8)",
+                zIndex: "1000",
+                top: "50%",
+                left: "50%",
+                marginTop: "-250px",
+                marginLeft: "-350px",
+              },
+            }}
+          >
+            <div className="modal_question">
+              <h1>{question}</h1>
+              <p>
+                asked by{" "}
+                <span className="name">
+                  {querUser.displayName ? querUser.displayName : querUser.email}
+                </span>{" "}
+                {""}
+                on{" "}
+                <span className="name">
+                  {new Date(timestamp?.toDate()).toLocaleString()}
+                </span>
+              </p>
+            </div>
+            <div className="modal_answer">
+              <textarea
+                value={answer}
+                onChange={(e) => setAnswer(e.target.value)}
+                placeholder="Enter Your Answer"
+                type="text"
+              />
+            </div>
+            <div className="modal_button">
+              <button className="cancle" onClick={() => setIsModalOpen(false)}>
+                Cancel
+              </button>
+              <button type="sumbit" onClick={handleAnswer} className="add">
+                Add Answer
+              </button>
+            </div>
+          </Modal>
         </div>
         <div className="post_answer">
-          <p></p>
+          {getAnswers.map(({ id, answers }) => (
+            <p key={id} style={{ position: "relative", paddingBottom: "5px" }}>
+              {Id === answers.questionId ? (
+                <span>
+                  {answers.answer}
+                  <br />
+                  <span
+                    style={{
+                      position: "absolute",
+                      color: "gray",
+                      fontSize: "small",
+                      display: "flex",
+                      right: "0px",
+                    }}
+                  >
+                    <span style={{ color: "#b92b27" }}>
+                      {answers.user.displayName
+                        ? answers.user.displayName
+                        : answers.user.email}{" "}
+                      on{" "}
+                      {new Date(answers.timestamp?.toDate()).toLocaleString()}
+                    </span>
+                  </span>
+                </span>
+              ) : (
+                ""
+              )}
+            </p>
+          ))}
         </div>
-        <img src="https://firebasestorage.googleapis.com/v0/b/quer-7898.appspot.com/o/WebsiteMust%2Flogo.png?alt=media&token=38620683-915f-484f-970e-e08ca266eafd" alt="" />
+        <img src={imageUrl} alt="" />
       </div>
       <div className="post_footer">
         <div className="post_footerAction">
-          <ArrowUpwardIcon />
-          <ArrowDownwardIcon />
+          <ArrowUpwardOutlinedIcon />
+          <ArrowDownwardOutlinedIcon />
         </div>
 
-        <RepeatIcon />
-        <ChatBubbleOutlineIcon />
+        <RepeatOutlinedIcon />
+        <ChatBubbleOutlineOutlinedIcon />
         <div className="post_footerLeft">
-          <ShareIcon />
-          <MoreHorizIcon />
+          <ShareOutlined />
+          <MoreHorizOutlined />
         </div>
       </div>
     </div>
