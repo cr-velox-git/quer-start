@@ -1,0 +1,29 @@
+.footer {
+  margin-top: 50px;
+  width: 100%;
+  bottom: 0;
+  background-color: white;
+  box-shadow: 10px 5px 8px 0px rgba(0, 0, 0, 0.5);
+  align-items: stretch;
+}
+
+.info_box {
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.info > ol {
+  cursor: pointer;
+  color: gray;
+}
+
+.footer_bottom{
+    display: flex;
+    align-items: center;
+    color: gray;
+    justify-content: center;
+    padding-bottom: 30px;
+}
+

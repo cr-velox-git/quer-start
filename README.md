@@ -48,10 +48,10 @@ Note
 
 installing the staring dependency
 
-npm i @material-ui/core @material-ui/icons firebase
+# npm i @material-ui/core @material-ui/icons firebase
 
 for model or component in the website
-npm i react-model
+# npm i react-model
 
 
 <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -66,10 +66,19 @@ npm i react-model
 
 
 
-npm install -g firebase-tools
+# npm install -g firebase-tools
 
-firebase login
+# firebase login
 
-firebase init
+# firebase init
 
-firebase deploy
+# firebase deploy
+
+use react router dom
+
+# npm install react-router-dom
+
+in main page
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+
