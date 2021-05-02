@@ -3,7 +3,7 @@
   width: 100%;
   bottom: 0;
   background-color: white;
-  box-shadow: 10px 5px 8px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
   align-items: stretch;
 }
 
@@ -12,9 +12,8 @@
   justify-content: center;
 }
 
-
-
 .info > ol {
+  font-size: 15px;
   cursor: pointer;
   color: gray;
 }
@@ -25,5 +24,6 @@
     color: gray;
     justify-content: center;
     padding-bottom: 30px;
+    font-size: 12px;
 }
 

@@ -1,24 +1,25 @@
 import React from "react";
 import "../css/Quer.css";
-import Feed from "./Feed";
 import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
-import Widget from "./Widget";
 import Footer from "./Footer";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Home from "./Home";
+import About from "./About";
+import Notification from "./Notification";
+import {BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 function quer() {
   return (
-  
-      <div className="quer">
-        <Navbar />
-        <div className="quer_content">
-          <Sidebar />
-          <Feed />
-          <Widget />
-        </div>
-        <Footer />
-      </div>
+    <Router>
+<div className="quer">
+      <Navbar />
+      <Switch>
+        <Route path="/Home" exact component = {Home}/>
+        <Route path="/About" exact component = {About}/>
+        <Route path="/Notification" exact component = {Notification}/>
+      </Switch>
+      <Footer />
+    </div>
+    </Router>
     
   );
 }

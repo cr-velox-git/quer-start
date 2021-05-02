@@ -1,5 +1,6 @@
 import React from "react";
-import "../css/Footer.css"
+import "../css/Footer.css";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
@@ -7,17 +8,16 @@ function Footer() {
       <div className="info_box">
         <div className="info">
           <ol>
-            <h2>QUER</h2>
+            <h4>QUER</h4>
             <ol>Question</ol>
             <ol>Jobs</ol>
-            <ol>Salary Calculator</ol>
             <ol>Help</ol>
             <ol>Mobile</ol>
           </ol>
         </div>
         <div className="info">
           <ol>
-            <h2>TEAMS</h2>
+            <h4>TEAMS</h4>
             <ol>Talents</ol>
             <ol>Advetisining</ol>
             <ol>Enterprise</ol>
@@ -25,19 +25,18 @@ function Footer() {
         </div>
         <div className="info">
           <ol>
-            <h2>COMPANY</h2>
-            <ol>About</ol>
-            <ol>Press</ol>
+            <h4>COMPANY</h4>
+            <Link to="/about">
+              <ol>About</ol>
+            </Link>
             <ol>Legal</ol>
             <ol>Privacy Policy</ol>
             <ol>Cotact Us</ol>
-            <ol>Cookie Setting</ol>
-            <ol>Cookie Policy</ol>
           </ol>
         </div>
         <div className="info">
           <ol>
-            <h2>SOCIAL NETWORK</h2>
+            <h4>SOCIAL NETWORK</h4>
             <ol>Blog</ol>
             <ol>Facebook</ol>
             <ol>Twitter</ol>
@@ -46,7 +45,10 @@ function Footer() {
           </ol>
         </div>
       </div>
-      <div className="footer_bottom">This is footer bottom</div>
+      <div className="footer_bottom">
+        Site Design / logo @ 2021 Stack Exchange Inc;user contributions licensed
+        under cc by-sa rev 2021.4.30.39183
+      </div>
     </div>
   );
 }

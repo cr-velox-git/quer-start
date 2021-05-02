@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import HomeIcon from "@material-ui/icons/Home";
 import FeaturedPlayListOutlinedIcon from "@material-ui/icons/FeaturedPlayListOutlined";
 import AssignmentTurnedInOutlinedIcon from "@material-ui/icons/AssignmentTurnedInOutlined";
@@ -6,7 +6,7 @@ import PeopleOutlineIcon from "@material-ui/icons/PeopleOutline";
 import PeopleAltOutlinedIcon from "@material-ui/icons/PeopleAltOutlined";
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 import SearchIcon from "@material-ui/icons/Search";
-import { Avatar, Button, Input  } from "@material-ui/core";
+import { Avatar, Button, Input } from "@material-ui/core";
 import LanguageIcon from "@material-ui/icons/Language";
 import "../css/Navbar.css";
 import { useSelector } from "react-redux";
@@ -14,15 +14,16 @@ import { selectUser } from "../features/userSlice";
 import db, { auth } from "../firebase";
 import Modal from "react-modal";
 import { ExpandMore, Link } from "@material-ui/icons";
-import firebase from 'firebase';
+import firebase from "firebase";
+import {Link as LinkRoute } from "react-router-dom";
 
 function Navbar() {
   const user = useSelector(selectUser);
 
   //const [IsmodelOpen, setIsModelOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const [input, setInput] = useState("");  //empty string
-  const [inputUrl, setInputUrl] = useState("");  //empty string
+  const [input, setInput] = useState(""); //empty string
+  const [inputUrl, setInputUrl] = useState(""); //empty string
   const questionName = input;
 
   const handleQuestion = (e) => {
@@ -42,7 +43,6 @@ function Navbar() {
     setInputUrl("");
   };
 
-
   return (
     <div className="navbar">
       <div className="header_logo">
@@ -52,24 +52,16 @@ function Navbar() {
         />
       </div>
       <dev className="header_icons">
-        <dev className="header_icon">
-          <HomeIcon />
-        </dev>
-        <dev className="header_icon">
-          <FeaturedPlayListOutlinedIcon />
-        </dev>
-        <dev className="header_icon">
-          <AssignmentTurnedInOutlinedIcon />
-        </dev>
-        <dev className="header_icon">
-          <PeopleOutlineIcon />
-        </dev>
-        <dev className="header_icon">
-          <NotificationsNoneIcon />
-        </dev>
+
+        <dev className="header_icon"><HomeIcon /></dev>
+        <dev className="header_icon"><FeaturedPlayListOutlinedIcon /></dev>
+        <dev className="header_icon"><AssignmentTurnedInOutlinedIcon /></dev>
+        <dev className="header_icon"><PeopleOutlineIcon /></dev>
+        <LinkRoute to="/Notification"><dev className="header_icon"><NotificationsNoneIcon /></dev></LinkRoute>
+
         <div className="header_input">
           <SearchIcon />
-          <input type="text" placeholder="search Quer" />
+            <input type="text" placeholder="search Quer" />
         </div>
         <div className="header_rem">
           <div className="header_avatar">
@@ -78,63 +70,55 @@ function Navbar() {
           <LanguageIcon />
 
           <Button onClick={() => setOpenModal(true)}>Add Question</Button>
-          <Modal 
-          isOpen={openModal}
-          onRequestClose = {()=> setOpenModal(false)}
-          >
+          <Modal isOpen={openModal} onRequestClose={() => setOpenModal(false)}>
             <div className="modal_title">
-             {/*_________________Model Start____________________ */}
+              {/*_________________Model Start____________________ */}
 
- <h5>Add Question</h5>
-            <h5>Share Link</h5>
-          </div>
-          <div className="modal_info">
-            <Avatar
-              className="avatar"
-              src={
-                user.photo
-                  ? user.photo
-                  : "https://images-platform.99static.com//_QXV_u2KU7-ihGjWZVHQb5d-yVM=/238x1326:821x1909/fit-in/500x500/99designs-contests-attachments/119/119362/attachment_119362573"
-              }
-            />
-            <p>{user.disPlayName ? user.disPlayName : user.email} asked</p>
-            <div className="modal_scope">
-              <PeopleAltOutlinedIcon />
-              <p>Public</p>
-              <ExpandMore />
+              <h5>Add Question</h5>
+              <h5>Share Link</h5>
             </div>
-          </div>
-          <div className="modal_Field">
-            <Input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              type="text"
-              placeholder="Start your question with 'What', 'How', 'Why', etc. "
-            /> 
-            <div className="modal_fieldLink">
-              <Link />
-              <input
-                value={inputUrl}
-                onChange={(e) => setInputUrl(e.target.value)}
+            <div className="modal_info">
+              <Avatar
+                className="avatar"
+                src={
+                  user.photo
+                    ? user.photo
+                    : "https://images-platform.99static.com//_QXV_u2KU7-ihGjWZVHQb5d-yVM=/238x1326:821x1909/fit-in/500x500/99designs-contests-attachments/119/119362/attachment_119362573"
+                }
+              />
+              <p>{user.disPlayName ? user.disPlayName : user.email} asked</p>
+              <div className="modal_scope">
+                <PeopleAltOutlinedIcon />
+                <p>Public</p>
+                <ExpandMore />
+              </div>
+            </div>
+            <div className="modal_Field">
+              <Input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
                 type="text"
-                placeholder="Optional: inclue a link that gives context"
-              ></input>
+                placeholder="Start your question with 'What', 'How', 'Why', etc. "
+              />
+              <div className="modal_fieldLink">
+                <Link />
+                <input
+                  value={inputUrl}
+                  onChange={(e) => setInputUrl(e.target.value)}
+                  type="text"
+                  placeholder="Optional: inclue a link that gives context"
+                ></input>
+              </div>
             </div>
-          </div>
-          <div className="modal_buttons">
-            <button className="cancle" 
-             onClick={() => setOpenModal(false)}
-            >
-              Cancel
-            </button>
-            <button type="sumbit" 
-            onClick={handleQuestion} 
-            className="add">
-              Add Question
-            </button>
+            <div className="modal_buttons">
+              <button className="cancle" onClick={() => setOpenModal(false)}>
+                Cancel
+              </button>
+              <button type="sumbit" onClick={handleQuestion} className="add">
+                Add Question
+              </button>
 
               {/*__________________Model End___________________ */}
-
             </div>
           </Modal>
         </div>
